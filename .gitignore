@@ -4,3 +4,4 @@ lib
 bin
 rpi-rgb-led-matrix
 impl/.cache
+.venv

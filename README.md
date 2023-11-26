@@ -13,15 +13,15 @@ A Spotify display for 64x64 RGB LED matrices
 
 ## Setup
 1. Clone the repo
-2. Enter the directory:
+   - `git clone --recurse-submodules https://github.com/kylejohnsonkj/rpi-spotify-matrix-display`
+2. Enter the cloned directory
    - `cd rpi-spotify-matrix-display/`
-3. **Set your Client ID and Secret ID in the config.ini**
-4. Update git submodules:
-   - `git submodule update --init --recursive`
-5. Install emulator dependencies (if not wanting to run emulated, you can skip this step):
-   - `pip install RGBMatrixEmulator`
-6. Run the app ([see below](#how-to-run))
-   - More dependencies may need to be installed via pip depending on your machine
+3. Install dependencies (within a [virtual env](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) is nice, but not required)
+   - `python3 -m pip install -r requirements.txt`
+4. **Set your Client ID and Secret ID in the config.ini** 🙂
+5. Switch to the impl directory
+   - `cd impl/`
+6. Run the controller ([see below](#how-to-run))
 7. Authorize Spotify
    - After running, follow instructions provided in the console. Pasted link should begin with http://localhost:8080/callback
 8. Enjoy!
