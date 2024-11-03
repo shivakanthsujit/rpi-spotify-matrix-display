@@ -1,4 +1,4 @@
-import os, inspect, sys, math, time, configparser, argparse
+import os, inspect, sys, math, time, configparser, argparse, warnings
 from PIL import Image
 
 from apps_v2 import spotify_player
@@ -76,6 +76,7 @@ def main():
 
 if __name__ == '__main__':
     try:
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
         main()
     except KeyboardInterrupt:
         print('Interrupted with Ctrl-C')
