@@ -1,11 +1,14 @@
 # rpi-spotify-matrix-display
 
-A Spotify display for 64x64 RGB LED matrices
+A Spotify display for 64x64 RGB LED matrices (raspberry pi project v2)
 
 ![emulator screenshot](screenshot.png)
 
 > [!NOTE]
 > You can run this project either on a raspberry pi connected to an rgb matrix or in a window that emulates a matrix display. If you don't have the components yet, emulation is a great option!
+
+## Hardware
+[Here is the list](https://www.reddit.com/r/raspberry_pi/comments/ombwwg/my_64x64_rgb_led_matrix_album_art_display_pi_3b/) of hardware I used. You can ignore the software details as they are irrelevant for v2.
 
 ## Spotify Pre-Setup
 1. Go to https://developer.spotify.com/dashboard
@@ -41,7 +44,7 @@ https://github.com/user-attachments/assets/9bf163f9-8e0f-47cc-b2d2-a62b3a975471
    - After running, follow instructions provided in the console. Pasted link should begin with http://localhost:8080/callback
    - After successful authorization, play a song and the display will appear!
 
-## Options
+## Arguments
 | Argument | Default | Description |
 | :- | :- | :- |
 |`-e` , `--emulated`| false | Run in a matrix emulator |
