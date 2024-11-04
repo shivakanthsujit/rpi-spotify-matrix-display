@@ -2,6 +2,8 @@
 
 A Spotify display for 64x64 RGB LED matrices
 
+![emulator screenshot](screenshot.png)
+
 ## Spotify Pre-Setup
 1. Go to https://developer.spotify.com/dashboard
 2. Create an account and/or login
@@ -16,8 +18,6 @@ https://github.com/user-attachments/assets/9bf163f9-8e0f-47cc-b2d2-a62b3a975471
 Please see the wiki page here for a full pi setup guide.
 
 ## Emulator Setup
-
-![emulator screenshot](screenshot.png)
 
 1. Clone and enter the repo
    - `git clone --recurse-submodules https://github.com/kylejohnsonkj/rpi-spotify-matrix-display`
