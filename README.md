@@ -13,9 +13,10 @@ A Spotify display for 64x64 RGB LED matrices (raspberry pi project v2)
 ## Spotify Pre-Setup
 1. Go to https://developer.spotify.com/dashboard
 2. Create an account and/or login
-3. Select "Create an app" (name/description does not matter)
-4. Copy the generated Client ID and Secret ID for later
-5. Lastly, tap "Edit settings" and add http://localhost:8080/callback under Redirect URIs
+3. Select "Create app" (name/description does not matter)
+4. Add http://localhost:8080/callback under Redirect URIs
+5. Save, then tap "Settings" in the upper right
+6. Copy the generated Client ID and Secret ID for later
 
 ## Pi Setup
 
