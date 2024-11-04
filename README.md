@@ -11,6 +11,8 @@ A Spotify display for 64x64 RGB LED matrices
 
 ## Pi Setup
 
+https://github.com/user-attachments/assets/9bf163f9-8e0f-47cc-b2d2-a62b3a975471
+
 Please see the wiki page here for a full pi setup guide.
 
 ## Emulator Setup
