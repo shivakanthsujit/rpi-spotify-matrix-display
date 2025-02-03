@@ -37,6 +37,8 @@ class SpotifyScreen:
         self.fetch_interval = 1
         self.spotify_module = self.modules['spotify']
 
+        self.zoom_factor = 1.0
+
         self.response = None
         self.thread = threading.Thread(target=self.getCurrentPlaybackAsync)
         self.thread.start()
@@ -57,13 +59,13 @@ class SpotifyScreen:
     def generateFrame(self, response):
         if response is not None:
             (artist, title, art_url, self.is_playing, progress_ms, duration_ms) = response
-
+            
             if self.full_screen_always:
                 if self.current_art_url != art_url:
                     self.current_art_url = art_url
                     response = requests.get(self.current_art_url)
                     img = Image.open(BytesIO(response.content))
-                    self.current_art_img = img.resize((self.canvas_width, self.canvas_height), resample=Image.LANCZOS)
+                    self.current_art_img = crop_and_resize(img, self.canvas_width)
 
                 frame = Image.new("RGB", (self.canvas_width, self.canvas_height), (0,0,0))
                 draw = ImageDraw.Draw(frame)
@@ -95,16 +97,20 @@ class SpotifyScreen:
                 current_time = math.floor(time.time())
                 show_fullscreen = current_time - self.paused_time >= self.paused_delay
 
+                # Calculate zoom factor based on song progress
+                new_zoom_factor = 1.0 + 1.0 * (1 - abs(8 * (progress_ms / duration_ms) % 2 - 1))
+
                 # show fullscreen album art after pause delay
                 if show_fullscreen and self.current_art_img.size == (48, 48):
                     response = requests.get(self.current_art_url)
                     img = Image.open(BytesIO(response.content))
-                    self.current_art_img = img.resize((self.canvas_width, self.canvas_height), resample=Image.LANCZOS)
-                elif not show_fullscreen and (self.current_art_url != art_url or self.current_art_img.size == (self.canvas_width, self.canvas_height)):
+                    self.current_art_img = crop_and_resize(img, self.canvas_width)
+                elif not show_fullscreen and (new_zoom_factor != self.zoom_factor or (self.current_art_url != art_url or self.current_art_img.size == (self.canvas_width, self.canvas_height))):
                     self.current_art_url = art_url
                     response = requests.get(self.current_art_url)
                     img = Image.open(BytesIO(response.content))
-                    self.current_art_img = img.resize((48, 48), resample=Image.LANCZOS)
+                    self.zoom_factor = new_zoom_factor
+                    self.current_art_img = crop_and_resize(img, 48, new_zoom_factor)
 
                 frame = Image.new("RGB", (self.canvas_width, self.canvas_height), (0,0,0))
                 draw = ImageDraw.Draw(frame)
@@ -171,6 +177,28 @@ class SpotifyScreen:
             self.paused_time = math.floor(time.time())
 
             return (None, self.is_playing)
+
+def crop_and_resize(img, size, zoom_factor=1.0):
+    """Zooms into the original image while keeping it centered, then crops to the target size."""
+    width, height = img.size
+
+    # Calculate the cropping box before resizing
+    crop_width = int(width / zoom_factor)
+    crop_height = int(height / zoom_factor)
+
+    # Compute center crop coordinates
+    left = (width - crop_width) // 2
+    top = (height - crop_height) // 2
+    right = left + crop_width
+    bottom = top + crop_height
+
+    # Crop the zoomed-in area
+    img = img.crop((left, top, right, bottom))
+
+    # Resize to the final size
+    img = img.resize((size, size), resample=Image.LANCZOS)
+
+    return img
 
 def drawPlayPause(draw, is_playing, color):
     x = 10
