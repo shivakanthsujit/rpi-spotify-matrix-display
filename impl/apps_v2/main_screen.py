@@ -8,9 +8,9 @@ import os
 
 # from apps_v2 import pomodoro
 
-light_pink = (255,219,218)
+light_pink = (218,255,218)
 dark_pink = (219,127,142)
-white = (230,255,255)
+white = (255,255,255)
 black = (0,0,0)
 
 salmon = (255,150,162)
@@ -29,6 +29,7 @@ spotify_color = (0,255,0)
 class MainScreen:
     def __init__(self, config, modules):
         self.font = ImageFont.truetype("fonts/tiny.otf", 10)
+        self.tinyfont = ImageFont.truetype("fonts/tiny.otf", 5)
         self.modules = modules
 
         self.canvas_width = config.getint('System', 'canvas_width', fallback=64)
@@ -41,7 +42,7 @@ class MainScreen:
         self.lastGenerateCall = None
         self.on_cycle = True
 
-        self.bgs = {'sakura' : Image.open('apps_v2/res/main_screen/sakura-bg.png').convert("RGB"),
+        self.bgs = {'sakura' : Image.open('apps_v2/res/main_screen/minnesota-bg.png').convert("RGB"),
                     'cloud' : Image.open('apps_v2/res/main_screen/cloud-bg-clear.png').convert("RGBA"),
                     'forest' : Image.open('apps_v2/res/main_screen/forest-bg.png').convert("RGB")}
 
@@ -105,16 +106,18 @@ class MainScreen:
             if (hours == 0):
                 hours += 12 
         minutes = currentTime.minute
+        am_pm = currentTime.strftime("%p")
 
         frame = Image.new('RGBA',(self.canvas_width, self.canvas_height), black)
         frame = self.bgs['sakura'].copy()
         draw = ImageDraw.Draw(frame)
 
-        x = 1
-        y = 26
+        x = 0
+        y = 3
         draw.text((x+3, y), padToTwoDigit(hours), light_pink, font=self.font)
         draw.text((x+17, y), ":", light_pink, font=self.font)
         draw.text((x+23, y), padToTwoDigit(minutes), light_pink, font=self.font)
+        draw.text((x+40, 8), am_pm, light_pink, font=self.tinyfont)
         
         # if (self.on_cycle):
         #date
@@ -129,15 +132,19 @@ class MainScreen:
         one_call = weather.getWeather()
         if (one_call != None):
             curr_temp = round(one_call.weather.temperature('fahrenheit')['temp'])
-            x = 19
-            y = 8
-            draw.text((x, y), padToTwoDigit(curr_temp), white, font=self.font)
-            draw.rectangle((x+16, y, x+17, y+1), fill=white)
+            x = 3
+            y = 22
+            draw.text((x, y), padToTwoDigit(curr_temp), white, font=self.tinyfont)
+            draw.rectangle((x+9, y, x+10, y+1), fill=white)
+
+            draw.text((x, 15), one_call.weather.detailed_status, white, font=self.tinyfont)
 
             # draw weather icon
             weather_icon_name = one_call.weather.weather_icon_name
             if weather_icon_name in self.icons:
-                frame.paste(self.icons[weather_icon_name], (x+21,y-5))
+                img = self.icons[weather_icon_name].resize((10, 10), resample=Image.BICUBIC)
+                frame.paste(img, (20,30))
+                # frame.paste(img, (46,3))
         
         #notifications
         # noti_list = self.modules['notifications'].getNotificationList()
@@ -221,7 +228,7 @@ def generateIconMap():
     return icon_map
 
 def padToTwoDigit(num):
-    if num < 10:
+    if num >= 0 and num < 10:
         return "0" + str(num)
     else:
         return str(num)
