@@ -14,18 +14,18 @@ A Spotify display for 64x64 RGB LED matrices (raspberry pi project v2)
 1. Go to https://developer.spotify.com/dashboard
 2. Create an account and/or login
 3. Select "Create app" (name/description does not matter)
-4. Add http://localhost:8080/callback under Redirect URIs
+4. Add http://127.0.0.1:8080/callback under Redirect URIs
 5. Save, then tap "Settings" in the upper right
 6. Copy the generated Client ID and Secret ID for later
 
 ## Pi Setup
 
+> [!IMPORTANT]
+> Please see the [pi setup wiki page](https://github.com/kylejohnsonkj/rpi-spotify-matrix-display/wiki/raspberry-pi-full-setup-guide) for a full installation guide!
+
 https://github.com/user-attachments/assets/9bf163f9-8e0f-47cc-b2d2-a62b3a975471
 
 <sup>The above video is from [my reddit post here.](https://www.reddit.com/r/raspberry_pi/comments/ziz4hk/my_64x64_rgb_led_matrix_album_art_display_pi_3b/)</sup>
-
-> [!IMPORTANT]
-> Please see the [pi setup wiki page](https://github.com/kylejohnsonkj/rpi-spotify-matrix-display/wiki/raspberry-pi-full-setup-guide) for a full installation guide!
 
 ## Emulator Setup
 
@@ -42,7 +42,7 @@ https://github.com/user-attachments/assets/9bf163f9-8e0f-47cc-b2d2-a62b3a975471
    - `cd impl/`
    - `python3 controller_v3.py -e`
 6. Authorize Spotify
-   - After running, follow instructions provided in the console. Pasted link should begin with http://localhost:8080/callback
+   - After running, follow instructions provided in the console. Pasted link should begin with http://127.0.0.1:8080/callback
    - After successful authorization, play a song and the display will appear!
 
 ## Arguments
