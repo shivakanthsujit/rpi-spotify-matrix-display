@@ -112,12 +112,12 @@ class MainScreen:
         frame = self.bgs['sakura'].copy()
         draw = ImageDraw.Draw(frame)
 
-        x = 0
-        y = 3
+        x = -1
+        y = 2
         draw.text((x+3, y), padToTwoDigit(hours), light_pink, font=self.font)
         draw.text((x+17, y), ":", light_pink, font=self.font)
         draw.text((x+23, y), padToTwoDigit(minutes), light_pink, font=self.font)
-        draw.text((x+40, 8), am_pm, light_pink, font=self.tinyfont)
+        draw.text((x+40, 7), am_pm, light_pink, font=self.tinyfont)
         
         # if (self.on_cycle):
         #date
@@ -132,17 +132,17 @@ class MainScreen:
         one_call = weather.getWeather()
         if (one_call != None):
             curr_temp = round(one_call.weather.temperature('fahrenheit')['temp'])
-            x = 3
+            x = 2
             y = 22
             draw.text((x, y), padToTwoDigit(curr_temp), white, font=self.tinyfont)
-            draw.rectangle((x+9, y, x+10, y+1), fill=white)
+            draw.rectangle((x+8, y, x+9, y+1), fill=white)
 
-            draw.text((x, 15), one_call.weather.detailed_status, white, font=self.tinyfont)
+            draw.text((x, 14), one_call.weather.detailed_status, white, font=self.tinyfont)
 
             # draw weather icon
             weather_icon_name = one_call.weather.weather_icon_name
             if weather_icon_name in self.icons:
-                img = self.icons[weather_icon_name].resize((10, 10), resample=Image.BICUBIC)
+                img = self.icons[weather_icon_name].resize((12, 12), resample=Image.BICUBIC)
                 frame.paste(img, (20,30))
                 # frame.paste(img, (46,3))
         
