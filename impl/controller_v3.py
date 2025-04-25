@@ -38,8 +38,8 @@ def main():
         print("no config file found")
         sys.exit()
     
-    canvas_width = config.getint('System', 'canvas_width', fallback=64)
-    canvas_height = config.getint('System', 'canvas_height', fallback=32)
+    canvas_width = config.getint('Matrix', 'cols', fallback=64)
+    canvas_height = config.getint('Matrix', 'rows', fallback=32)
         
 
     # connect to Spotify and create display image
@@ -49,12 +49,13 @@ def main():
     # setup matrix
     options = RGBMatrixOptions()
     options.hardware_mapping = config.get('Matrix', 'hardware_mapping', fallback='regular')
-    options.rows = config.getint('System', 'canvas_height')
-    options.cols = config.getint('System', 'canvas_width')
+    options.rows = config.getint('Matrix', 'rows', fallback=32)
+    options.cols = config.getint('Matrix', 'cols', fallback=64)
     options.brightness = 100 if is_emulated else config.getint('Matrix', 'brightness', fallback=100)
     options.gpio_slowdown = config.getint('Matrix', 'gpio_slowdown', fallback=1)
     options.limit_refresh_rate_hz = config.getint('Matrix', 'limit_refresh_rate_hz', fallback=0)
     options.drop_privileges = False
+    options.led_rgb_sequence = config.get('Matrix', 'led-rgb-sequence', fallback='RGB')
     matrix = RGBMatrix(options = options)
 
     shutdown_delay = config.getint('Matrix', 'shutdown_delay', fallback=600)
